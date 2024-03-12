@@ -18,13 +18,13 @@ const NewButton = () => {
       <DialogTrigger asChild>
         <div className=' aspect-square'>
           <Hint label='create organization' side='right' align='start' sideOffset={12}>
-            <button className=' border-solid border-2 border-white rounded-lg h-full w-full flex justify-center items-center opacity-60 hover:opacity-100 transition'>
+            <button className=' border-solid border-2 border-white rounded-full h-full w-full flex justify-center items-center opacity-60 hover:opacity-100 transition'>
               <Plus className=' text-white' />
             </button>
           </Hint>
         </div>
       </DialogTrigger>
-      <DialogContent className=' p-0 bg-transparent border-none mx-w-[480px]'>
+      <DialogContent className=' p-0 bg-transparent border-none max-w-[480px]'>
         <CreateOrganization />
       </DialogContent>
     </Dialog>

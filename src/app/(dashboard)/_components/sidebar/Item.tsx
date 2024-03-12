@@ -33,7 +33,7 @@ const Item = ({ name, id, imageUrl }: ItemProps) => {
                     // we use cn to give dynamic css like if something is clicked and active then the design is something else something different
                     // in cn function the first parameter is the normal class and the second parameter is the one where the element is active
                     className={cn(
-                        "rounded-md cursor-pointer opacity-75 hover:opacity-100",
+                        "rounded-full cursor-pointer opacity-75 hover:opacity-100",
                         isActive && "opacity-100"
                     )}
                 />
