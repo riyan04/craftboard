@@ -21,9 +21,9 @@ export const create = mutation({
         title: v.string()
     },
     handler: async (ctx, arg) => {
-        const identity = await ctx.auth.getUserIdentity() // gets the identity of the user
+        const user = await ctx.auth.getUserIdentity() // gets the identity of the user
 
-        if(!identity){
+        if(!user){
             throw new Error("Unauthorized")
         }
 
@@ -32,8 +32,8 @@ export const create = mutation({
         const board = ctx.db.insert("boards", {
             title: arg.title,
             organizationID: arg.organizationID,
-            authorID: identity.subject,
-            authorName: identity.name!,
+            authorID: user.subject,
+            authorName: user.name!,
             imageURL: randomImg
         })
 
