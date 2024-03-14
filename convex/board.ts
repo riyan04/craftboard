@@ -40,3 +40,52 @@ export const create = mutation({
         return board
     }
 })
+
+export const remove = mutation({
+    args: {
+        id: v.id("boards")
+    },
+    handler: async (ctx, arg) => {
+        const user = await ctx.auth.getUserIdentity() // gets the identity of the user
+
+        if(!user){
+            throw new Error("Unauthorized")
+        }
+
+        // TODO: delete favourite relations
+
+        await ctx.db.delete(arg.id)
+    }
+})
+
+export const update = mutation({
+    args: {
+        id: v.id("boards"),
+        title: v.string()
+    },
+
+    handler: async (ctx, arg) => {
+        const user = await ctx.auth.getUserIdentity() // gets the identity of the user
+
+        if(!user){
+            throw new Error("Unauthorized")
+        }
+
+        const title = arg.title.trim()
+
+        if(!title){
+            throw new Error("Title required")
+        }
+
+        if(title.length > 70){
+            throw new Error("Title can't exceed 70 characters")
+        }
+
+        const board = await ctx.db.patch(arg.id, {
+            title: arg.title
+        })
+
+        return board
+    }
+
+})
