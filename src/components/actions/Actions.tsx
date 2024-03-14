@@ -8,12 +8,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { Link2, Trash2 } from "lucide-react"
+import { Edit, Link2, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { useApiMutation } from "@/hooks/useApiMutation"
 import { api } from "../../../convex/_generated/api"
 import ConfirmAlerts from "../alerts/ConfirmAlerts"
 import { Button } from "../ui/button"
+import { onOpen, onClose, renameModalProps } from "@/store/features/renameModalSlice"
+import { useAppDispatch, useAppSelector, useAppStore } from "@/store/hooks"
 
 interface ActionsProps{
     children: React.ReactNode,
@@ -23,7 +25,20 @@ interface ActionsProps{
     title: string
 }
 
+
+
 const Actions = ({ children, side, sideOffset, id, title}: ActionsProps) => {
+
+
+    const dispatch = useAppDispatch()
+    const renameParameter : renameModalProps = {isOpen: true, initialValues: {id: id, title: title}}
+    // console.log(renameParameter)
+
+    // renameParameter.isOpen = true
+    // renameParameter.initialValues.id = id
+    // renameParameter.initialValues.title = title
+    
+    
     const { mutate, awaiting } = useApiMutation(api.board.remove)
     const onCopyLink = () => {
         navigator.clipboard.writeText(
@@ -53,6 +68,10 @@ const Actions = ({ children, side, sideOffset, id, title}: ActionsProps) => {
             <DropdownMenuItem className=" p-3 cursor-pointer" onClick={onCopyLink}>
                 <Link2 className=" h-4 w-4 mr-2" />
                 Copy board link
+            </DropdownMenuItem>
+            <DropdownMenuItem className=" p-3 cursor-pointer" onClick={()=>dispatch(onOpen(renameParameter))}>
+                <Edit className=" h-4 w-4 mr-2" />
+                Rename
             </DropdownMenuItem>
             <ConfirmAlerts
                 header="Do you want to delete the board?"
