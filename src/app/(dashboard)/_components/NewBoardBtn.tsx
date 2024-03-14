@@ -34,7 +34,7 @@ const NewBoardBtn = ({organizationId, disabled}: NewBoardBtnProps) => {
       )}
     >
       <Plus className=" h-9 w-9 text-gray-500 stroke-1" />
-      <p className=" text-[13px] font-light">
+      <p className=" text-[13px] font-light ">
         New Board
       </p>
     </button>

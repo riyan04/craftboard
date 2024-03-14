@@ -7,6 +7,8 @@ import { formatDistanceToNow } from "date-fns"
 import { useAuth } from "@clerk/nextjs"
 import Footer from "./Footer"
 import { Skeleton } from "@/components/ui/skeleton"
+import Actions from "@/components/actions/Actions"
+import { MoreHorizontal } from "lucide-react"
 
 
 
@@ -44,6 +46,17 @@ const BoardCard = ({ id, title, imageURL, authorID, authorName, createdAt, organ
                         className=" object-fill"
                     />
                     <Overlay />
+                    <Actions 
+                        id={id}
+                        title={title}
+                        side={"right"}
+                    >
+                        <button className=" border rounded-lg absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <MoreHorizontal
+                                className=" text-white opacity-75 hover:opacity-100 transition-opacity"
+                            />
+                        </button>
+                    </Actions>
                 </div>
                 {/* CHALLENGE: Try using global state management system Redux-toolkit instead of passing props everywhere */}
                 <Footer 
