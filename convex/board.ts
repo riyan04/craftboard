@@ -89,3 +89,85 @@ export const update = mutation({
     }
 
 })
+
+export const favourite = mutation({
+    args: {
+        id: v.id("boards"),
+        organizationID: v.string()
+    },
+    handler: async (ctx, arg) => {
+        const user = await ctx.auth.getUserIdentity() // gets the identity of the user
+
+        if(!user){
+            throw new Error("Unauthorized")
+        }
+
+        const board = await ctx.db.get(arg.id)
+        
+        if(!board){
+            throw new Error("Board not found")
+        }
+
+        const userID = user.subject //Identifier for the end-user from the identity provider, not necessarily unique across different providers.
+
+        const existingFavourite = await ctx.db
+        .query("userFavourites")
+        .withIndex("by_user_board_organization", (q) => (
+            q.eq("userID", userID).eq("boardID", board._id).eq("organizationID", arg.organizationID)
+            
+        ))
+        .unique()  // Execute the query and return the singular result if there is one.
+
+        if(existingFavourite){
+            throw new Error("Board alread favourited")
+        }
+
+        await ctx.db.insert("userFavourites", {
+            userID: userID,
+            boardID: board._id,
+            organizationID: arg.organizationID
+        })
+
+        return board
+
+    }
+})
+
+export const undoFavourite = mutation({
+    args: {
+        id: v.id("boards"),
+    },
+    handler: async (ctx, arg) => {
+        const user = await ctx.auth.getUserIdentity() // gets the identity of the user
+
+        if(!user){
+            throw new Error("Unauthorized")
+        }
+
+        const board = await ctx.db.get(arg.id)
+        
+        if(!board){
+            throw new Error("Board not found")
+        }
+
+        const userID = user.subject //Identifier for the end-user from the identity provider, not necessarily unique across different providers.
+
+        const existingFavourite = await ctx.db
+        .query("userFavourites")
+        .withIndex("by_user_board", (q) => (
+            q.eq("userID", userID).eq("boardID", board._id)
+            // is organizatioID required
+            
+        ))
+        .unique()  // Execute the query and return the singular result if there is one.
+
+        if(!existingFavourite){
+            throw new Error("Favourited board not found")
+        }
+
+        await ctx.db.delete(existingFavourite._id)
+
+        return board
+
+    }
+})

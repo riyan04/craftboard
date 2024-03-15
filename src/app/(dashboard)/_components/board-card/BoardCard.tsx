@@ -9,6 +9,9 @@ import Footer from "./Footer"
 import { Skeleton } from "@/components/ui/skeleton"
 import Actions from "@/components/actions/Actions"
 import { MoreHorizontal } from "lucide-react"
+import { useApiMutation } from "@/hooks/useApiMutation"
+import { api } from "../../../../../convex/_generated/api"
+import { toast } from "sonner"
 
 
 
@@ -34,6 +37,20 @@ const BoardCard = ({ id, title, imageURL, authorID, authorName, createdAt, organ
     })
     // formatDistanceToNow: Return the distance between the given date and now in words.
     // addSuffix: Add "X ago"/"in X" in the locale language
+
+    const { mutate : mutateFavourite, awaiting: awaitingFavourite } = useApiMutation(api.board.favourite)
+    const { mutate: mutateUndoFavourite, awaiting: awaitingUndoFavourite } = useApiMutation(api.board.undoFavourite)
+    // what we're doing here is giving each four a different names cuz variables were repeating itself, which is not allowed
+
+    const toggleFavourite = () => {
+        if(isFavourite){
+            mutateUndoFavourite({ id})
+            .catch(()=> toast.error("Failed to unfavourite"))
+        } else {
+            mutateFavourite({ id, organizationID})
+            .catch(()=> toast.error("Failed to favourite"))
+        }
+    }
 
     return (
         <Link href={`board/${id}`}>
@@ -64,8 +81,8 @@ const BoardCard = ({ id, title, imageURL, authorID, authorName, createdAt, organ
                     title={title} 
                     authorLabel={authorLabel}
                     createdAtLabel={createdAtLabel}
-                    onClick={()=>{}}
-                    disabled={false}
+                    onClick={toggleFavourite}
+                    disabled={awaitingFavourite || awaitingUndoFavourite}
                 />
             </div>
         </Link>

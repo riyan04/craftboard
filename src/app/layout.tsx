@@ -25,7 +25,8 @@ export default function RootLayout({
         <ConvexClientProvider>
           <StoreProvider>
             <Toaster />
-            <ModalProvider />
+            {/* <ModalProvider /> */}
+            <RenameModal />
             {children}
           </StoreProvider>
         </ConvexClientProvider>
