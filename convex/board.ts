@@ -53,8 +53,19 @@ export const remove = mutation({
         }
 
         // TODO: delete favourite relations
+        const existingFavourite = await ctx.db
+        .query("userFavourites")
+        .withIndex("by_user_board", (q) => (
+            q.eq("userID", user.subject).eq("boardID", arg.id)
+        ))
+        .unique()
 
+        if(existingFavourite){
+            await ctx.db.delete(existingFavourite._id)
+        }
+        
         await ctx.db.delete(arg.id)
+
     }
 })
 
