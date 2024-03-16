@@ -1,14 +1,19 @@
+import Room from "@/components/room/Room"
 import Canvas from "./_components/Canvas"
 
 interface BoardIdPageProps {
     params: {
-        boardID: string
+        boardId: string
     }
 }
 
 const BoardIdPage = ({ params } : BoardIdPageProps) => {
+    // console.log(params.boardId)
     return (
-        <Canvas boardID={params.boardID} />
+        <Room roomID={params.boardId} fallback={<div>Loading...</div>}>
+
+            <Canvas boardID={params.boardId} />
+        </Room>
     )
 }
 
