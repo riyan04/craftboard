@@ -11,9 +11,11 @@ import { useOrganization } from "@clerk/nextjs";
 import { useApiMutation } from "@/hooks/useApiMutation";
 import { toast } from "sonner"
 import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 
 
 const EmptyBoards = () => {
+  const router = useRouter() // Get the router methods. For example router.push('/dashboard')
   const {organization} = useOrganization()
   const { mutate, awaiting} = useApiMutation(api.board.create)
   const onClick = () => {
@@ -25,6 +27,7 @@ const EmptyBoards = () => {
     .then((id) => {
       toast.success("Board created")
       // TODO: redirect to board/{id}
+      router.push(`/board/${id}`)
     })
     .catch(() => toast.error("Failed to create the board"))
   }
