@@ -13,7 +13,7 @@ const Canvas = ({boardID}: CanvasProps) => {
   const info = useSelf((me) => me.info)
   return (
     <main className=" h-full w-full relative bg-neutral-100 touch-none">
-        <Info />
+        <Info boardID={boardID} />
         <Participants />
         <Toolbar />
     </main>

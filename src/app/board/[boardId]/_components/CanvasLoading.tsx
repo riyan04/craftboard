@@ -1,8 +1,9 @@
 
+
 import Image from "next/image"
-import Info from "./Info"
-import Participants from "./Participants"
-import Toolbar from "./Toolbar"
+import { InfoSkeleton } from "./Info"
+import { ParticipantsSkeleton } from "./Participants"
+import { ToolbarSkeleton } from "./Toolbar"
 
 
 const CanvasLoading = () => {
@@ -15,9 +16,9 @@ const CanvasLoading = () => {
             height={50}
             className=" opacity-75 animate-ping"
         />
-        <Info.Skeleton />
-        <Participants.Skeleton />
-        <Toolbar.Skeleton />
+        <InfoSkeleton />
+        <ParticipantsSkeleton />
+        <ToolbarSkeleton />
     </main>
   )
 }

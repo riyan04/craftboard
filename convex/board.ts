@@ -123,8 +123,8 @@ export const favourite = mutation({
 
         const existingFavourite = await ctx.db
         .query("userFavourites")
-        .withIndex("by_user_board_organization", (q) => (
-            q.eq("userID", userID).eq("boardID", board._id).eq("organizationID", arg.organizationID)
+        .withIndex("by_user_board", (q) => (
+            q.eq("userID", userID).eq("boardID", board._id)
             
         ))
         .unique()  // Execute the query and return the singular result if there is one.
