@@ -11,7 +11,9 @@ interface RoomProps{
 
 const Room = ({children, roomID, fallback}: RoomProps) => {
   return (
-    <RoomProvider id={roomID} initialPresence={{}}>
+    <RoomProvider id={roomID} initialPresence={{
+      cursor: null
+    }}>
         <ClientSideSuspense fallback={fallback}>
             {() => children}
         </ClientSideSuspense>

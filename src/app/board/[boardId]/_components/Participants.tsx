@@ -1,5 +1,6 @@
 "use client"
 
+import { connectionIdToColor } from "@/lib/utils"
 import { useOthers, useSelf } from "../../../../../liveblocks.config"
 import UserAvatar from "./UserAvatar"
 
@@ -15,7 +16,7 @@ const Participants = () => {
         <div className=" flex gap-x-2">
           {users.slice(0, MAXSHOWNUSERS).map(({connectionId, info}) => {
             return (
-              <UserAvatar key={connectionId} src={info?.picture} name={info?.name} fallback={info?.name?.[0]} />
+              <UserAvatar key={connectionId} src={info?.picture} name={info?.name} fallback={info?.name?.[0]} borderColor={connectionIdToColor(connectionId)} />
             )
           })}
           {currentUser && (
@@ -24,6 +25,7 @@ const Participants = () => {
               src={currentUser.info?.picture}
               name={`${currentUser.info?.name} (You)`}
               fallback={currentUser.info?.name?.[0]}
+              borderColor={connectionIdToColor(currentUser.connectionId)}
 
             />
           )}
